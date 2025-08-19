@@ -1,0 +1,11 @@
+{
+  "name": "Siklog",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg",
+    }
+  ],
+  "display": "standalone",
+  "background_color": "#e0d3aa"
+}
