@@ -10,7 +10,7 @@
   }
 
   const addLog = log => {
-    s.logs[log]().push(Logs.empty())
+    s.logs[log]().unshift(Logs.empty())
   }
 
 </script>

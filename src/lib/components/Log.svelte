@@ -11,13 +11,17 @@
     return log2.date - log1.date
   }
 
+  export function equals(log1, log2) {
+    return new Date(log1.date).getTime === new Date(log2.date).getTime
+  }
+
   const DAYS = ['SUN','MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT']
   const dateToText = date => {
     const d = new Date(date)
     return `${padd(d.getHours())}:${padd(d.getMinutes())}:${padd(d.getSeconds())} - ` +
-    `${DAYS[d.getDay()]} ${padd(d.getDate())}, ${padd(d.getMonth())} ${d.getFullYear()}`
+    `${DAYS[d.getDay()]} ${padd(d.getDate())}`
   }
-  const padd = number => (number+"").length == 1 ? '0' + number : number
+  export const padd = number => (number+"").length == 1 ? '0' + number : number
 </script>
 
 <script>
@@ -55,7 +59,7 @@
       class="icon"
       onclick={() => showModal = true}
     ><EditIcon --color="var(--mg)"/></button>
-
+    
   {/if}
 </div>
 
@@ -63,10 +67,13 @@
 
   <Modal bind:showModal>
     {#snippet header()}
-      <h2>Seguro que quieres borar</h2>  
-      <p>{dateText}</p>
-      <p>Se perderan las notas asociadas</p>
+      <h2>
+        Seguro que quieres borar
+      </h2>  
+      <small>{dateText}</small>
     {/snippet}
+      <p>Se perderan las notas asociadas</p>
+      <span>{log.data}</span>
     <button onclick={remove} class="modal-ok">Borrar</button>
   </Modal>
 
@@ -134,6 +141,15 @@ textarea {
   height: 200px;
   min-height: 150px;
   max-height: 500px;
+}
+
+span {
+  width: 80%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  border: 1px solid var(--fg);
 }
 
 </style>

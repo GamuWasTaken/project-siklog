@@ -1,14 +1,13 @@
 <script>
   import Log from "./Log.svelte";
   import Toggle from "./Toggle.svelte"
+  import LogDisplay from "./LogDisplay.svelte"
 
   const { s } = $props()
 
   let viewKey = $state()
-  const removeLog = (log, i) => log().splice(i, 1)  
-  const editLog = (log, i, note) => log()[i].data = note
-
   let removeMode = $state(false)
+
 </script>
 
 <div class="controls">
@@ -23,19 +22,9 @@
   <Toggle bind:toggled={removeMode}/>
 
 </div>
-<div class="logs">
-{#if s.logs[viewKey]}
-  {#each s.logs[viewKey]() as log, i}
-    <Log
-      {log}
-      edit={note => editLog(s.logs[viewKey], i, note)}
-      remove={() => removeLog(s.logs[viewKey], i)}
-      canRemove={removeMode}
-    />
-  {/each}
-{/if}
 
-</div>
+<LogDisplay logs={s.logs[viewKey] ?? (() => [])} {removeMode}/>
+
 <style>
 select {
   background-color: var(--bg);

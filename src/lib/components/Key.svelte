@@ -58,7 +58,7 @@
 
     padding: 10px;
     border-radius: 10px;
-    width: 32%;
+    width: 30vw;
     aspect-ratio: 1 / 1;
 
     display: flex;
