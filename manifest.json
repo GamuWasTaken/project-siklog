@@ -1,5 +1,8 @@
 {
+  "id": "Siklog",
   "name": "Siklog",
+  "short_name": "Siklog",
+  "description": "Simple event tracking app",
   "icons": [
     {
       "src": "icon.svg",
@@ -7,6 +10,7 @@
     }
   ],
   "start_url": "/",
-  "display": "standalone",
+  "scope": "/",
+  "display": "browser",
   "background_color": "#e0d3aa"
 }
