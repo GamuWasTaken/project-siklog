@@ -4,3 +4,6 @@ init:
 
 run:
     pnpm run dev --open
+
+build:
+    pnpm run build
