@@ -1,6 +1,7 @@
 <script>
   import Key, * as Keys from './Key.svelte';
-    import KeyBuilder from './KeyBuilder.svelte';
+  import * as Logs from './Log.svelte';
+  import KeyBuilder from './KeyBuilder.svelte';
   const { s } = $props()
 
   const addKey = key => {
@@ -8,7 +9,9 @@
     s.keys.push(key)
   }
 
-  const addLog = log => s.logs[log]().push(new Date())
+  const addLog = log => {
+    s.logs[log]().push(Logs.empty())
+  }
 
 </script>
 <div class="keypad">
@@ -22,13 +25,12 @@
 <style>
 
 .keypad {
-  border: 2px solid var(--fg);
   display: flex;
   flex-direction: row;
   flex-wrap:  wrap;
-  justify-content: space-around;
+  justify-content: center;
   padding: 10px;
-  gap: 10px 5px;
+  gap: 10px 2%;
 }
 
 </style>

@@ -1,27 +1,92 @@
-<script>
-    import TrashIcon from "./TrashIcon.svelte";
+<script module>
+  export function empty() {
+    return log(new Date(), '')
+  }
 
-  const { date, remove } = $props()
+  export function log(date, data) {
+    return { date, data }
+  }
 
-  // 02:30 10 12 mon 2025
+  export function compare(log1, log2) {
+    return log2.date - log1.date
+  }
 
   const DAYS = ['SUN','MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT']
-  const dateToText = d =>
-    `${padd(d.getHours())}:${padd(d.getMinutes())}:${padd(d.getSeconds())} - ` +
+  const dateToText = date => {
+    const d = new Date(date)
+    return `${padd(d.getHours())}:${padd(d.getMinutes())}:${padd(d.getSeconds())} - ` +
     `${DAYS[d.getDay()]} ${padd(d.getDate())}, ${padd(d.getMonth())} ${d.getFullYear()}`
-
+  }
   const padd = number => (number+"").length == 1 ? '0' + number : number
+</script>
+
+<script>
+  import EditIcon from "./EditIcon.svelte";
+  import Modal from "./Modal.svelte";
+  import TrashIcon from "./TrashIcon.svelte";
+
+  const { log, canRemove , remove, edit } = $props()
+
+  let note = $state(log.data)
+  let showModal = $state(false)
+
+  function save() {
+    edit(note)
+    note = log.data
+    showModal = false
+  }
+
+  const dateText = $derived(dateToText(log.date))
 
 </script>
 
 <div>
-  <p> {dateToText(date)} </p>
-  <button onclick={remove}> <TrashIcon --color="var(--mg)"/> </button>
+  <p> {dateText} </p>
+  {#if canRemove}
+
+    <button
+      class="icon"
+      onclick={() => showModal = true}
+    ><TrashIcon --color="var(--fg)"/></button>
+
+  {:else}
+
+    <button
+      class="icon"
+      onclick={() => showModal = true}
+    ><EditIcon --color="var(--mg)"/></button>
+
+  {/if}
 </div>
+
+{#if canRemove}
+
+  <Modal bind:showModal>
+    {#snippet header()}
+      <h2>Seguro que quieres borar</h2>  
+      <p>{dateText}</p>
+      <p>Se perderan las notas asociadas</p>
+    {/snippet}
+    <button onclick={remove} class="modal-ok">Borrar</button>
+  </Modal>
+
+{:else}
+
+  <Modal bind:showModal>
+    {#snippet header()}
+      <h2>Añadir nota en</h2>  
+      <p>{dateText}</p>
+    {/snippet}
+    <textarea bind:value={note}></textarea>
+    <button onclick={save} class="modal-ok">Guardar</button>
+  </Modal>
+
+{/if}
 
 <style>
 div {
   padding: 5px;
+  height: 50px;
   background-color: var(--bg);
   border: 2px solid var(--mg);
   border-top: none;
@@ -56,9 +121,19 @@ p {
   margin: 0;
 }
 
-button {
+.icon {
   background-color: transparent;
   border: none;
+}
+
+textarea {
+  background-color: var(--bg);
+  border: 1px solid var(--fg);
+  resize: vertical;
+  width: 100%;
+  height: 200px;
+  min-height: 150px;
+  max-height: 500px;
 }
 
 </style>

@@ -1,11 +1,10 @@
 <script>
-  import favicon from '$lib/assets/favicon.svg';
-
   let { children } = $props();
 </script>
 
 <svelte:head>
-  <link rel="icon" href={favicon} />
+  <link rel="icon" href="./icon.svg" />
+  <link rel="manifest" href="./manifest.json">
 </svelte:head>
 
 {@render children?.()}
@@ -30,7 +29,7 @@
 
 :global(:root) {
   --bg: #e0d3aa;
-  --mg: #b29468;
+  --mg: #663300;
   --fg: #420061;
 }
 </style>

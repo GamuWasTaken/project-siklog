@@ -5,14 +5,11 @@
 
   const s = appState()
 
-  let openMenu = $state(false)
-
 </script>
 
 <KeyPad {s} />
-
+<hr/>
 <LogPad {s} />
-
 
 <style>
 
