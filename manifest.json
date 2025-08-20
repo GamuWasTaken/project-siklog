@@ -9,8 +9,8 @@
       "type": "image/svg"
     }
   ],
-  "start_url": "/",
-  "scope": "/",
-  "display": "browser",
+  "start_url": "/project-siklog",
+  "scope": "/project-siklog",
+  "display": "standalone",
   "background_color": "#e0d3aa"
 }
