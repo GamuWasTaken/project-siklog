@@ -8,17 +8,19 @@
     const i = logs().findIndex(Logs.equals)
     logs().splice(i, 1)  
   }
-  const editLog = (i, note) => logs()[i].data = note
+  const editLog = (log, note) => {
+    log.data = note
+  }
 
   const logTree = $derived.by(() => {
     let tree = {}
 
     for(const log of logs()) {
       const logDate = new Date(log.date)
-      const monthYear = `${Logs.padd(logDate.getMonth() + 1)} - ${logDate.getFullYear()}`
+      const monthYear = `${logDate.getFullYear()} ${Logs.MONTHS[logDate.getMonth()]}`
 
       if(!tree[monthYear]) tree[monthYear] = []
-      tree[monthYear].unshift(log)
+      tree[monthYear].push(log)
     }
 
     return tree

@@ -18,7 +18,7 @@ input {
 label {
   --color: var(--mg);
   background-color: var(--color);
-  width: 80px;
+  width: 60px;
   height: 30px;
   position: relative;
   border-radius: 30px;
@@ -33,11 +33,12 @@ label {
     left: 5px;
     aspect-ratio: 1 / 1;
     background-color: white;
-    transition: translate 250ms cubic-bezier(.68,-0.55,.27,1.55)
+    transition: translate 250ms cubic-bezier(.68,-0.55,.27,1.55), left 250ms ease;
   }
 
 }
 .toggled::after {
-  translate: calc(80px - 5px - 20px - 20px);
+  left: calc(100% - 5px);
+  translate: -100%;
 }
 </style>

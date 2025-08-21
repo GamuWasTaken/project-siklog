@@ -1,20 +1,9 @@
 
-export const registerServiceWorker = async path => {
-  if (!('serviceWorker' in navigator)) return
+import { dev } from '$app/environment'
+import { asset } from '$app/paths'
 
-  try {
-    const registration = await navigator.serviceWorker.register(path, {
-      scope: '/'
-    })
-
-    if (registration.installing) {
-      console.log("SW installing")
-    } else if (registration.waiting) {
-      console.log('SW installed')
-    } else if (registration.active) {
-      console.log('SW active :)')
-    }
-  } catch (e) {
-    console.error(`SW error: ${e}`)
-  }
+export const registerServiceWorker = () => {
+  navigator.serviceWorker.register(asset('./cache-worker.js'), {
+    type: dev ? 'module' : 'classic'
+  })
 }

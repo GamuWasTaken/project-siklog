@@ -15,11 +15,14 @@
     return new Date(log1.date).getTime === new Date(log2.date).getTime
   }
 
-  const DAYS = ['SUN','MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT']
-  const dateToText = date => {
+  export const DAYS = ['SUN','MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT']
+  export const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+  export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+  export const dateToText = date => {
     const d = new Date(date)
-    return `${padd(d.getHours())}:${padd(d.getMinutes())}:${padd(d.getSeconds())} - ` +
-    `${DAYS[d.getDay()]} ${padd(d.getDate())}`
+    return `${DAYS[d.getDay()]} ${padd(d.getDate())}` + ' - ' + 
+    `${padd(d.getHours())}:${padd(d.getMinutes())}:${padd(d.getSeconds())}`
   }
   export const padd = number => (number+"").length == 1 ? '0' + number : number
 </script>
