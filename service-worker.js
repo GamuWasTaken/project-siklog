@@ -1,1 +1,0 @@
-self.addEventListener("install",t=>{});const n=async(t,c)=>{const e=await caches.match(t);if(e)return e;const a=await fetch(t);return c.waitUntil(s(t,a.clone())),a},s=async(t,c)=>{await(await caches.open("v1")).put(t,c)};self.addEventListener("fetch",t=>{t.respondWith(n(t.request,t))});
