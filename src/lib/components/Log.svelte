@@ -8,42 +8,47 @@
   }
 
   export function compare(log1, log2) {
-    return log2.date - log1.date
+    return new Date(log2.date) - new Date(log1.date)
   }
 
   export function equals(log1, log2) {
-    return new Date(log1.date).getTime === new Date(log2.date).getTime
+    return new Date(log1.date).getTime() === new Date(log2.date).getTime()
   }
 
-  export const DAYS = ['SUN','MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT']
-  export const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-  export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const DAYS = ['SUN','MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT']
+  const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
   export const dateToText = date => {
     const d = new Date(date)
     return `${DAYS[d.getDay()]} ${padd(d.getDate())}` + ' - ' + 
     `${padd(d.getHours())}:${padd(d.getMinutes())}:${padd(d.getSeconds())}`
   }
+
+  export const yearMonth = date => {
+    const d = new Date(date)
+    return `${d.getFullYear()} ${MONTHS[d.getMonth()]}`
+  }
   export const padd = number => (number+"").length == 1 ? '0' + number : number
 </script>
-
 <script>
   import EditIcon from "./EditIcon.svelte";
   import Modal from "./Modal.svelte";
   import TrashIcon from "./TrashIcon.svelte";
 
-  const { log, canRemove , remove, edit } = $props()
+  const { log, canRemove , remove, edit} = $props()
 
-  let note = $state(log.data)
   let showModal = $state(false)
 
+  let note = $derived(log.data)
+
   function save() {
-    edit(note)
-    note = log.data
     showModal = false
+    edit(note)
   }
 
   const dateText = $derived(dateToText(log.date))
+  const fullDateText = $derived(dateToText(log.date) + ' ' + yearMonth(log.date) )
 
 </script>
 
@@ -73,7 +78,7 @@
       <h2>
         Seguro que quieres borar
       </h2>  
-      <small>{dateText}</small>
+      <small>{fullDateText}</small>
     {/snippet}
       <p>Se perderan las notas asociadas</p>
       <span>{log.data}</span>
@@ -131,10 +136,6 @@ p {
   margin: 0;
 }
 
-.icon {
-  background-color: transparent;
-  border: none;
-}
 
 textarea {
   background-color: var(--bg);

@@ -1,49 +1,44 @@
-
 <script>
+  import AppState from '$lib/state.svelte';
   import Log, * as Logs from './Log.svelte'
 
   const { logs, removeMode } = $props()
 
-  const removeLog = log => {
-    const i = logs().findIndex(Logs.equals)
-    logs().splice(i, 1)  
-  }
-  const editLog = (log, note) => {
-    log.data = note
-  }
-
   const logTree = $derived.by(() => {
+    if(!logs) return
     let tree = {}
 
-    for(const log of logs()) {
+    for(const log of logs) {
       const logDate = new Date(log.date)
-      const monthYear = `${logDate.getFullYear()} ${Logs.MONTHS[logDate.getMonth()]}`
+      const yearMonth = Logs.yearMonth(log.date)
 
-      if(!tree[monthYear]) tree[monthYear] = []
-      tree[monthYear].push(log)
+      if(!tree[yearMonth]) tree[yearMonth] = []
+      tree[yearMonth].push(log)
     }
 
-    return tree
+    return Object.entries(tree)
+      .toSorted(([ak, av], [bk, bv]) => Logs.compare(av[0], bv[0]))
   })
 
 </script>
 
 <div>
-
-{#each Object.entries(logTree) as [key, month]}
-  <h3>{key}</h3>
-  <div>
-  {#each month as log}
-  <Log
-    {log}
-    edit={note => editLog(log, note)}
-    remove={() => removeLog(log)}
-    canRemove={removeMode}
-  />
+{#if logs}
+  {#each logTree as [key, month]}
+    <h3>{key}</h3>
+    <div>
+    {#each month as log, i}
+    <Log
+      {log}
+      edit={note => log.data = note}
+      remove={() => AppState.removeLog(logs, log)}
+      canRemove={removeMode}
+    />
     
+    {/each}
+    </div>
   {/each}
-  </div>
-{/each}
+{/if}
 
 </div>
 

@@ -32,4 +32,11 @@
   --mg: #663300;
   --fg: #420061;
 }
+
+:global {
+  .icon {
+    background-color: transparent;
+    border: none;
+  }
+}
 </style>

@@ -3,7 +3,7 @@ import { onMount } from "svelte";
 
 export function localStore(key, initial) {
   let state = $state(initial)
-  
+
   const stored = localStorage[key]
   if(stored) state = JSON.parse(stored)
 
@@ -11,5 +11,5 @@ export function localStore(key, initial) {
     localStorage[key] = JSON.stringify(state)
   })
 
-  return () => state
+  return state
 }

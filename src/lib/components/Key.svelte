@@ -4,30 +4,27 @@
   }
 
   export function key(icon, name) {
-    return { icon, name }
+    return { icon, name, logs: [] }
   }
 
   export function equals(key1, key2) {
     return key1.name === key2.name
   }
 
-  export function isValid(state, key) {
-    return ! (!key.name || state.keys.some(k => equals(k, key)))
+  export function isValid(keys, key) {
+    return ! (!key.name || keys.some(k => equals(k, key)))
   }
 
 </script>
 
 <script>
   import Modal from "./Modal.svelte";
+  import AppState from "$lib/state.svelte"
 
-  const { saveLog, key } = $props()
+  const { key } = $props()
 
   let showModal = $state(false)
 
-  function save() {
-    showModal = false
-    saveLog()
-  }
 </script>
 
 <button onclick={() => (showModal = true)} class="key">
@@ -35,12 +32,21 @@
   <p>{key.name}</p>
 </button>
 
+<!-- Log creation check -->
 <Modal bind:showModal>
   {#snippet header()}
     <h2>Guardar log de<br><i>{key.icon}</i>{key.name}?</h2>
   {/snippet}
 
-  <button class="modal-ok" onclick={save}>Si</button>
+  <button
+    class="modal-ok"
+    onclick={() => {
+      showModal = false
+      AppState.addLog(key)
+    }}
+  >
+    Si
+  </button>
 </Modal>
 
 <style>

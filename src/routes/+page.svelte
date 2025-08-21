@@ -3,7 +3,7 @@
   import { registerServiceWorker } from '$lib/worker-registrar'
   import KeyPad from '$lib/components/KeyPad.svelte';
   import LogPad from '$lib/components/LogPad.svelte';
-    import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
   const s = appState()
 

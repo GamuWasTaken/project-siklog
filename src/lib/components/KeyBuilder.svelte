@@ -3,23 +3,18 @@
   import * as Keys from "./Key.svelte"
   import PlusIcon from "./PlusIcon.svelte";
 
-  const { saveKey } = $props()
+  const { s } = $props()
 
   let showModal = $state(false)
   let newKey = $state(Keys.empty())
 
-  function save() {
-    showModal = false
-    saveKey(newKey)
-    newKey = Keys.empty()
-  }
 </script>
 
 <button class="key" onclick={() => showModal = true}>
   <PlusIcon --color="var(--mg)"/>
 </button>
 
-
+<!-- Key form -->
 <Modal bind:showModal>
   {#snippet header()}
     <h2>Nuevo log</h2>
@@ -37,7 +32,16 @@
     >
   </div>
 
-  <button class="modal-ok" onclick={save}>Guardar</button>
+  <button
+    class="modal-ok"
+    onclick={() => {
+      showModal = false
+      s.addKey(newKey)
+      newKey = Keys.empty()
+    }}
+  >
+    Guardar
+  </button>
 </Modal>
 
 <style>
